@@ -57,3 +57,29 @@ func TestCalculateMaleMetric(t *testing.T) {
 		validateCalculate(t, tc.calories, tc.err, calories, err)
 	}
 }
+
+/*
+   Calculate Male BMR using imperial measurment standard.
+*/
+var calculateMaleImperialTests = []struct {
+	// Input
+	weight float64 // Input weight
+	height float64 // Input height
+	age    int     // Input age
+
+	// Output
+	calories int   // Resulting calories
+	err      error // Resulting error
+}{
+	{176.0, 75.0, 24, 1952, nil},              // Functional input
+	{153.1, 68.4, 30, 1684, nil},              // Other functional input
+	{-1.0, 78.1, 34, 0, NegativeValueError{}}, // Negative value error
+	{48.2, 0.0, 12, 0, ZeroValueError{}},      // Zero value error
+}
+
+func TestCalculateMaleImperial(t *testing.T) {
+	for _, tc := range calculateMaleMetricTests {
+		calories, err := calculateMaleImperial(tc.weight, tc.height, tc.age)
+		validateCalculate(t, tc.calories, tc.err, calories, err)
+	}
+}
