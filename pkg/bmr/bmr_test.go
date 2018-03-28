@@ -83,3 +83,29 @@ func TestCalculateMaleImperial(t *testing.T) {
 		validateCalculate(t, tc.calories, tc.err, calories, err)
 	}
 }
+
+/*
+   Calculate Female BMR using metric measurment standard.
+*/
+var calculateFemaleMetricTests = []struct {
+	// Input
+	weight float64 // Input weight
+	height float64 // Input height
+	age    int     // Input age
+
+	// Output
+	calories int   // Resulting calories
+	err      error // Resulting error
+}{
+	{65.0, 170.0, 22, 1482, nil},              // Functional input
+	{72.5, 174.1, 32, 1514, nil},              // Other functional input
+	{-1.0, 78.1, 34, 0, NegativeValueError{}}, // Negative value error
+	{48.2, 0.0, 12, 0, ZeroValueError{}},      // Zero value error
+}
+
+func TestCalculateFemaleMetric(t *testing.T) {
+	for _, tc := range calculateMaleMetricTests {
+		calories, err := calculateFemaleMetric(tc.weight, tc.height, tc.age)
+		validateCalculate(t, tc.calories, tc.err, calories, err)
+	}
+}
