@@ -78,7 +78,7 @@ var calculateMaleImperialTests = []struct {
 }
 
 func TestCalculateMaleImperial(t *testing.T) {
-	for _, tc := range calculateMaleMetricTests {
+	for _, tc := range calculateMaleImperialTests {
 		calories, err := calculateMaleImperial(tc.weight, tc.height, tc.age)
 		validateCalculate(t, tc.calories, tc.err, calories, err)
 	}
@@ -104,7 +104,7 @@ var calculateFemaleMetricTests = []struct {
 }
 
 func TestCalculateFemaleMetric(t *testing.T) {
-	for _, tc := range calculateMaleMetricTests {
+	for _, tc := range calculateFemaleMetricTests {
 		calories, err := calculateFemaleMetric(tc.weight, tc.height, tc.age)
 		validateCalculate(t, tc.calories, tc.err, calories, err)
 	}
