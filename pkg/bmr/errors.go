@@ -19,3 +19,12 @@ type ZeroValueError struct {
 func (e ZeroValueError) Error() string {
 	return fmt.Sprintf("%s", e.message)
 }
+
+// Unusable measurment type.
+type ValueTypeError struct {
+	message string
+}
+
+func (e ValueTypeError) Error() string {
+	return fmt.Sprintf("%s", e.message)
+}

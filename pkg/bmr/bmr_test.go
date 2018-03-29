@@ -17,6 +17,19 @@ type calculateSpecific struct {
 	err      error // Resulting error
 }
 
+type calculateVariables struct {
+	// Input
+	gender   string
+	standard string
+	weight   float64 // Input weight
+	height   float64 // Input height
+	age      int     // Input age
+
+	// Output
+	calories int   // Resulting calories
+	err      error // Resulting error
+}
+
 /*
    Validate the results of a BMR calculation, comparing expected results with actual results.
 */
@@ -42,6 +55,25 @@ func validateCalculate(t *testing.T, expCals int, expErr error, resCals int, res
 				t.Error("Wrong error type returned")
 			}
 		}
+	}
+}
+
+/*
+	Calculate BMR.
+*/
+var calculateTests = []calculateVariables{
+	{"male", "metric", 80.0, 190.0, 24, 1949, nil},               // Functional input
+	{"female", "imperial", 153.1, 68.4, 30, 1684, nil},           // Other functional input
+	{"male", "metric", -1.0, 174.3, 34, 0, NegativeValueError{}}, // Negative value error
+	{"male", "metric", 64.3, 0.0, 12, 0, ZeroValueError{}},       // Zero value error
+	{"dragon", "metric", 153.1, 68.4, 30, 0, ValueTypeError{}},   // Non compatible gender
+	{"female", "smoots", 153.1, 68.4, 30, 0, ValueTypeError{}},   // Non compatible measurment standard
+}
+
+func TestCalculate(t *testing.T) {
+	for _, tc := range calculateTests {
+		calories, err := calculate(tc.gender, tc.standard, tc.weight, tc.height, tc.age)
+		validateCalculate(t, tc.calories, tc.err, calories, err)
 	}
 }
 
