@@ -71,12 +71,15 @@ func validateCalculate(t *testing.T, expCals int, expErr error, resCals int, res
 	Calculate BMR.
 */
 var calculateTests = []calculateVariables{
-	{"Functional Input", "male", "metric", 80.0, 190.0, 24, 1949, nil},
-	{"Other Functional Input", "female", "imperial", 176.0, 75.0, 24, 1660, nil},
+	{"Correct Male Metric", "male", "metric", 80.0, 190.0, 24, 1949, nil},
+	{"Correct Male Imperial", "male", "imperial", 176.0, 75.0, 24, 1952, nil},
+	{"Correct Female Metric", "female", "metric", 72.5, 174.1, 32, 1514, nil},
+	{"Correct Femae Imperial", "female", "imperial", 176.0, 75.0, 24, 1660, nil},
 	{"Negative value error", "male", "metric", -1.0, 174.3, 34, 0, NegativeValueError{}},
 	{"Zero value error", "male", "metric", 64.3, 0.0, 12, 0, ZeroValueError{}},
 	{"Non compatible gender", "dragon", "metric", 153.1, 68.4, 30, 0, ValueTypeError{}},
-	{"Non compatible measurment standard", "female", "smoots", 153.1, 68.4, 30, 0, ValueTypeError{}},
+	{"Non compatible measurment standard female", "female", "smoots", 153.1, 68.4, 30, 0, ValueTypeError{}},
+	{"Non compatible measurment standard male", "male", "smoots", 153.1, 68.4, 30, 0, ValueTypeError{}},
 }
 
 func TestCalculate(t *testing.T) {
