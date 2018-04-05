@@ -60,6 +60,6 @@ func Run(args []string) {
 	err := cmd.Run()
 
 	if err != nil {
-		fmt.Errorf("%v", err)
+		fmt.Println(fmt.Errorf("%v", err))
 	}
 }
