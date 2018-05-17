@@ -39,6 +39,16 @@ func init() {
 	CmdCalc.Flag.BoolVar(&calcH, "help", false, "")
 }
 
+func calcBmr(p profile.Profile, weight float64) (int, error) {
+	bmr, err := bmr.Calculate(p.Data.Gender, p.Data.Standard, weight, p.Data.Height, p.Data.Age)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return bmr, nil
+}
+
 func run(cmd *base.Command, args []string) {
 	if calcH || len(args) < 1 {
 		fmt.Println(CmdCalc.Help)
@@ -54,17 +64,13 @@ func run(cmd *base.Command, args []string) {
 			fmt.Println("BMR needs weight argument!\n macros calc bmr <weight>")
 			os.Exit(1)
 		}
-
 		weight, _ := strconv.ParseFloat(args[1], 64)
 
-		bmr, err := bmr.Calculate(p.Data.Gender, p.Data.Standard, weight, p.Data.Height, p.Data.Age)
-
-		if err != nil {
+		if bmr, err := calcBmr(p, weight); err == nil {
+			fmt.Println("BMR: ", bmr)
+		} else {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-
-		fmt.Println("BMR: ", bmr)
 	}
-
 }
