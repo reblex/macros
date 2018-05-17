@@ -1,0 +1,16 @@
+[
+    {
+        "name": "main",
+        "standard": "metric",
+        "age": 21,
+        "height": 190,
+        "gender": "male"
+    },
+    {
+        "name": "oscar",
+        "standard": "metric",
+        "age": 21,
+        "height": 185,
+        "gender": "male"
+    }
+]
