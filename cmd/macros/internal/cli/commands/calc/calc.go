@@ -17,14 +17,18 @@ var CmdCalc = &base.Command{
 	Help: `Overview:
     Calculates meal and energy related values based on profile settings.
 
+Usage:
+    calc [flag]... calculation <weight>
+
+Flags:
+    -h, -help           Print this help message.
+
 Calculations:
     bmr                 Base metabolic rate
     calories            Total calories
     macros              Macronutrients
-    all					Complete profile
-
-Flags:
-    -h, -help			Print this help message.
+    all                 Complete profile
+    help                Print this help message.
     `,
 	CustomFlags: true,
 }
@@ -61,7 +65,7 @@ func run(cmd *base.Command, args []string) {
 	switch args[0] {
 	case "bmr":
 		if len(args) < 2 {
-			fmt.Println("BMR needs weight argument!\n macros calc bmr <weight>")
+			fmt.Println("BMR needs weight argument.\n macros calc bmr <weight>")
 			os.Exit(1)
 		}
 		weight, _ := strconv.ParseFloat(args[1], 64)
@@ -72,5 +76,9 @@ func run(cmd *base.Command, args []string) {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+	case "help":
+		fmt.Println(cmd.Help)
+	default:
+		fmt.Println("Invalid calculation type.\n" + cmd.Usage + "\nFor more help type:\n macros calc help")
 	}
 }
