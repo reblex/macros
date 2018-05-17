@@ -9,12 +9,12 @@ import (
 )
 
 type profileData struct {
-	Name            string  `json:"name"`
-	Standard        string  `json:"standard"`
-	Age             int     `json:"age"`
-	Height          float64 `json:"height"`
-	Gender          string  `json:"gender"`
-	CalorieConstant int     `json:"calorieConstant"`
+	Name            string  `json:"name"`            // Name of Profile
+	Standard        string  `json:"standard"`        // metric/imperial
+	Age             int     `json:"age"`             // age in years
+	Height          float64 `json:"height"`          // height in given standard
+	Gender          string  `json:"gender"`          // gender
+	CalorieConstant int     `json:"calorieConstant"` // Increase/Decrease in calories(bulk/cut)
 }
 
 type Profile struct {
