@@ -25,7 +25,7 @@ Flags:
 
 Calculations:
     bmr                 Base metabolic rate
-    calories            Total calories
+    calories            Total calories((bmr * activity factor) + calorie constant)
     macros              Macronutrients
     all                 Complete profile
     help                Print this help message.
@@ -76,6 +76,23 @@ func run(cmd *base.Command, args []string) {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+	case "calories":
+		if len(args) < 2 {
+			fmt.Println("Calories need a weight argument.\n macros calc calories <weight>")
+			os.Exit(1)
+		}
+		weight, _ := strconv.ParseFloat(args[1], 64)
+
+		bmr, err := calcBmr(p, weight)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+
+		calories := int(float64(bmr)*p.Data.ActivityFactor) + p.Data.CalorieConstant
+		fmt.Println("Calories:", calories)
+
 	case "help":
 		fmt.Println(cmd.Help)
 	default:

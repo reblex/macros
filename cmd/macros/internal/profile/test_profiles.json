@@ -5,6 +5,7 @@
         "age": 21,
         "height": 190,
         "gender": "male",
-        "calorieConstant": 200
+        "calorieConstant": 200,
+        "activityFactor": 1.65
     }
 ]

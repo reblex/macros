@@ -15,6 +15,7 @@ type profileData struct {
 	Height          float64 `json:"height"`          // height in given standard
 	Gender          string  `json:"gender"`          // gender
 	CalorieConstant int     `json:"calorieConstant"` // Increase/Decrease in calories(bulk/cut)
+	ActivityFactor  float64 `json:"activityFactor"`  // Activity factor, multiplied with BMR for total calories
 }
 
 type Profile struct {

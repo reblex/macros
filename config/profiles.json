@@ -4,13 +4,8 @@
         "standard": "metric",
         "age": 21,
         "height": 190,
-        "gender": "male"
-    },
-    {
-        "name": "oscar",
-        "standard": "metric",
-        "age": 21,
-        "height": 185,
-        "gender": "male"
+        "gender": "male",
+        "calorieConstant": 200,
+        "activityFactor": 1.65
     }
 ]
