@@ -53,6 +53,39 @@ func calcBmr(p profile.Profile, weight float64) (int, error) {
 	return bmr, nil
 }
 
+func printBmr(p profile.Profile, args []string) {
+	if len(args) < 2 {
+		fmt.Println("BMR needs weight argument.\n macros calc bmr <weight>")
+		os.Exit(1)
+	}
+	weight, _ := strconv.ParseFloat(args[1], 64)
+
+	if bmr, err := calcBmr(p, weight); err == nil {
+		fmt.Println("BMR: ", bmr)
+	} else {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+}
+
+func printCalories(p profile.Profile, args []string) {
+	if len(args) < 2 {
+		fmt.Println("Calories need a weight argument.\n macros calc calories <weight>")
+		os.Exit(1)
+	}
+	weight, _ := strconv.ParseFloat(args[1], 64)
+
+	bmr, err := calcBmr(p, weight)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	calories := int(float64(bmr)*p.Data.ActivityFactor) + p.Data.CalorieConstant
+	fmt.Println("Calories:", calories)
+}
+
 func run(cmd *base.Command, args []string) {
 	if calcH || len(args) < 1 {
 		fmt.Println(CmdCalc.Help)
@@ -64,35 +97,9 @@ func run(cmd *base.Command, args []string) {
 
 	switch args[0] {
 	case "bmr":
-		if len(args) < 2 {
-			fmt.Println("BMR needs weight argument.\n macros calc bmr <weight>")
-			os.Exit(1)
-		}
-		weight, _ := strconv.ParseFloat(args[1], 64)
-
-		if bmr, err := calcBmr(p, weight); err == nil {
-			fmt.Println("BMR: ", bmr)
-		} else {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
+		printBmr(p, args)
 	case "calories":
-		if len(args) < 2 {
-			fmt.Println("Calories need a weight argument.\n macros calc calories <weight>")
-			os.Exit(1)
-		}
-		weight, _ := strconv.ParseFloat(args[1], 64)
-
-		bmr, err := calcBmr(p, weight)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
-
-		calories := int(float64(bmr)*p.Data.ActivityFactor) + p.Data.CalorieConstant
-		fmt.Println("Calories:", calories)
-
+		printCalories(p, args)
 	case "help":
 		fmt.Println(cmd.Help)
 	default:
