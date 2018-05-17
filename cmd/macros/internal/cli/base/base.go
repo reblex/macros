@@ -1,8 +1,10 @@
 package base
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 )
@@ -31,6 +33,10 @@ type Command struct {
 	CustomFlags bool
 }
 
+type applicationSettings struct {
+	MainProfile string `json:"mainProfile"`
+}
+
 var (
 	FlagH bool // macros -h, -help flag
 
@@ -39,6 +45,9 @@ var (
 
 	// All available commands
 	Commands []*Command
+
+	//System-wide settings
+	Settings applicationSettings
 )
 
 func init() {
@@ -51,6 +60,26 @@ func init() {
 func (c *Command) PrintUsage() {
 	fmt.Fprintf(os.Stderr, "usage: %s\n", c.Usage)
 	fmt.Fprintf(os.Stderr, "Run 'macros help %s' for details.\n", c.Name)
+}
+
+func (s *applicationSettings) Load(path string) error {
+	raw, err := ioutil.ReadFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	json.Unmarshal(raw, &Settings)
+
+	return nil
+}
+
+func (s *applicationSettings) Save(path string) error {
+	data, _ := json.MarshalIndent(Settings, "", "    ")
+
+	ioutil.WriteFile(path, data, 0644)
+
+	return nil
 }
 
 // Run command

@@ -19,6 +19,7 @@ func init() {
 	base.Commands = []*base.Command{
 		calc.CmdCalc,
 	}
+	base.Settings.Load("config/settings.json")
 }
 
 func main() {

@@ -35,7 +35,6 @@ var (
 
 func init() {
 	CmdCalc.Run = run
-
 	CmdCalc.Flag.BoolVar(&calcH, "h", false, "")
 	CmdCalc.Flag.BoolVar(&calcH, "help", false, "")
 }
@@ -45,12 +44,9 @@ func run(cmd *base.Command, args []string) {
 		fmt.Println(CmdCalc.Help)
 		return
 	}
-
 	var p profile.Profile
-	p.Name = "oscar"
+	p.Name = base.Settings.MainProfile
 	p.Load("config/profiles.json")
-
-	fmt.Println(p.Data)
 
 	switch args[0] {
 	case "bmr":
