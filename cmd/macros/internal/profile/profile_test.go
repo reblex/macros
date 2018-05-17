@@ -20,7 +20,7 @@ func TestLoadWorkingFile(t *testing.T) {
 
 func TestSaveNewFile(t *testing.T) {
 	t.Run("Save new file", func(t *testing.T) {
-		pd := profileData{"main", "metric", 21, 190, "male"}
+		pd := profileData{"main", "metric", 21, 190, "male", 200}
 		p := Profile{"main", pd}
 		error := p.Save("test_profiles.json")
 

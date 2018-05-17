@@ -4,6 +4,7 @@
         "standard": "metric",
         "age": 21,
         "height": 190,
-        "gender": "male"
+        "gender": "male",
+        "calorieConstant": 200
     }
 ]
