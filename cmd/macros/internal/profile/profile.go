@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-type profileData struct {
+type ProfileData struct {
 	Name            string  `json:"name"`            // Name of Profile
 	Standard        string  `json:"standard"`        // metric/imperial
 	Age             int     `json:"age"`             // age in years
@@ -16,14 +16,17 @@ type profileData struct {
 	Gender          string  `json:"gender"`          // gender
 	CalorieConstant int     `json:"calorieConstant"` // Increase/Decrease in calories(bulk/cut)
 	ActivityFactor  float64 `json:"activityFactor"`  // Activity factor, multiplied with BMR for total calories
+	FatPercentage   int     `json:"fatPercentage"`   // Percentage of protein is added as fat
+	ProteinFactor   float64 `json:"proteinFactor"`   // Multiplied by bodyweight in pounds to calculate amount of daily protein
+	MealsPerDay     int     `json:"mealsPerDay"`     //Amount of meals per day, given same size meals
 }
 
 type Profile struct {
 	Name string
-	Data profileData
+	Data ProfileData
 }
 
-func (p *Profile) GetProfiles(path string) []profileData {
+func (p *Profile) GetProfiles(path string) []ProfileData {
 	raw, err := ioutil.ReadFile(path)
 
 	if err != nil {
@@ -31,7 +34,7 @@ func (p *Profile) GetProfiles(path string) []profileData {
 		os.Exit(1)
 	}
 
-	var profiles []profileData
+	var profiles []ProfileData
 
 	json.Unmarshal(raw, &profiles)
 

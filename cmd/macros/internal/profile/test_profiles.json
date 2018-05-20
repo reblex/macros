@@ -6,6 +6,9 @@
         "height": 190,
         "gender": "male",
         "calorieConstant": 200,
-        "activityFactor": 1.65
+        "activityFactor": 1.65,
+        "fatPercentage": 66,
+        "proteinFactor": 1.2,
+        "mealsPerDay": 5
     }
 ]
