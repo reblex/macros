@@ -78,6 +78,19 @@ func getProfileNames() []string {
 	return names
 }
 
+func isProfile(p string) bool {
+	isProfile := false
+	profiles := getProfileNames()
+
+	for _, profile := range profiles {
+		if profile == p {
+			isProfile = true
+			break
+		}
+	}
+	return isProfile
+}
+
 func listProfiles() {
 	profiles := getProfileNames()
 
@@ -87,7 +100,20 @@ func listProfiles() {
 }
 
 func selectProfile(args []string) {
-	return
+	if len(args) < 1 {
+		fmt.Println(CmdProfile.Help)
+		return
+	}
+
+	if isProfile(args[0]) == false {
+		fmt.Printf("A profile with the name '%v' does not exist\n", args[0])
+		fmt.Println("To see a list of profile, use:")
+		fmt.Println("  macros profile list")
+	} else {
+		base.Settings.MainProfile = args[0]
+		base.Settings.Save("config/settings.json")
+		fmt.Printf("Selecting profile '%v'\n", args[0])
+	}
 }
 
 func createProfile(args []string) {
