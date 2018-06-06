@@ -21,10 +21,11 @@ Flags:
     -h, -help           Print this help message
 
 Commands:
-    select              Select a profile to use
+	list                List all profiles
+	select              Select a profile to use
     create            	Create a new profile
     edit                Edit a current profile settings
-	help                Print this help message
+    help                Print this help message
     `,
 	CustomFlags: true,
 }
@@ -32,6 +33,12 @@ Commands:
 var (
 	profH bool // profile -h, -help flag
 )
+
+func init() {
+	CmdProfile.Run = run
+	CmdProfile.Flag.BoolVar(&profH, "h", false, "")
+	CmdProfile.Flag.BoolVar(&profH, "help", false, "")
+}
 
 func run(cmd *base.Command, args []string) {
 	if profH || len(args) < 1 {
@@ -43,6 +50,8 @@ func run(cmd *base.Command, args []string) {
 	p.Load("config/profiles.json")
 
 	switch args[0] {
+	case "list":
+		listProfiles()
 	case "select":
 		selectProfile(args[1:])
 	case "create":
@@ -53,6 +62,27 @@ func run(cmd *base.Command, args []string) {
 		fmt.Println(cmd.Help)
 	default:
 		fmt.Println("Invalid command.\n" + cmd.Usage + "\nFor more help type:\n macros profile help")
+	}
+}
+
+func getProfileNames() []string {
+	var p profile.Profile
+	profiles := p.GetProfiles("config/profiles.json")
+
+	names := make([]string, len(profiles))
+
+	for i, profile := range profiles {
+		names[i] = profile.Name
+	}
+
+	return names
+}
+
+func listProfiles() {
+	profiles := getProfileNames()
+
+	for i := 0; i < len(profiles); i++ {
+		fmt.Println(profiles[i])
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/reblex/macros/cmd/macros/internal/cli/base"
 	"github.com/reblex/macros/cmd/macros/internal/cli/commands/calc"
+	"github.com/reblex/macros/cmd/macros/internal/cli/commands/profile"
 )
 
 var (
@@ -18,6 +19,7 @@ func init() {
 	BaseFlags.Parse(os.Args[1:])
 	base.Commands = []*base.Command{
 		calc.CmdCalc,
+		profile.CmdProfile,
 	}
 	base.Settings.Load("config/settings.json")
 }
