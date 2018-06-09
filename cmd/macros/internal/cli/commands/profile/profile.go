@@ -126,13 +126,36 @@ func selectProfile(args []string) {
 }
 
 func examineProfile(args []string) {
-	return
+	if len(args) < 1 {
+		fmt.Println("examine requires profile argument.")
+		fmt.Println(" macros profile examine <profile>")
+		return
+	}
+
+	if isProfile(args[0]) == false {
+		fmt.Printf("A profile with the name '%v' does not exist.\n", args[0])
+		fmt.Println("To see a list of profile, use:")
+		fmt.Println("  macros profile list")
+		return
+	}
+
+	p := profile.Profile{}
+	p.Name = args[0]
+	p.Load("config/profiles.json")
+
+	//https://play.golang.org/p/0Uqf8Qi0lC
+	value := reflect.ValueOf(p.Data)
+
+	for i := 0; i < value.NumField(); i++ {
+		key := value.Type().Field(i).Name
+		val := value.Field(i)
+		fmt.Printf("%v: %v\n", key, val)
+	}
 }
 
 func createProfile(args []string) {
 	p := profile.Profile{}
 	pd := &profile.ProfileData{}
-	fmt.Println(pd)
 	reader := bufio.NewReader(os.Stdin)
 
 	//https://play.golang.org/p/0Uqf8Qi0lC
