@@ -1,7 +1,12 @@
 package profile
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"reflect"
+	"strconv"
+	"strings"
 
 	"github.com/reblex/macros/cmd/macros/internal/cli/base"
 	"github.com/reblex/macros/cmd/macros/internal/profile"
@@ -125,7 +130,47 @@ func examineProfile(args []string) {
 }
 
 func createProfile(args []string) {
-	return
+	p := profile.Profile{}
+	pd := &profile.ProfileData{}
+	fmt.Println(pd)
+	reader := bufio.NewReader(os.Stdin)
+
+	//https://play.golang.org/p/0Uqf8Qi0lC
+	ptr := reflect.ValueOf(pd)
+	value := ptr.Elem()
+
+	// Loop profiledata struct and set values for all fields
+	for i := 0; i < value.NumField(); i++ {
+		key := value.Type().Field(i).Name
+		val := value.Field(i)
+		// fmt.Printf("%v: %v\n", key, val)
+
+		fmt.Printf("%v: ", key)
+		newVal, _ := reader.ReadString('\n')
+		newVal = strings.TrimSuffix(newVal, "\n")
+
+		// Set struct field values based on type
+		switch val.Type().Name() {
+		case "string":
+			val.SetString(newVal)
+		case "float64":
+			newVal, _ := strconv.ParseFloat(newVal, 64)
+			val.SetFloat(newVal)
+		case "int":
+			newVal, _ := strconv.ParseInt(newVal, 10, 64)
+			val.SetInt(newVal)
+		case "bool":
+			newVal, _ := strconv.ParseBool(newVal)
+			val.SetBool(newVal)
+		}
+
+		if key == "Name" {
+			p.Name = val.String()
+		}
+	}
+
+	p.Data = *pd
+	p.Save("config/profiles.json")
 }
 
 func editProfile(args []string) {
