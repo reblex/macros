@@ -58,6 +58,8 @@ func run(cmd *base.Command, args []string) {
 		createProfile(args[1:])
 	case "edit":
 		editProfile(args[1:])
+	case "examine":
+		examineProfile(args[1:])
 	case "help":
 		fmt.Println(cmd.Help)
 	default:
@@ -116,6 +118,10 @@ func selectProfile(args []string) {
 		base.Settings.Save("config/settings.json")
 		fmt.Printf("Selecting profile '%v'.\n", args[0])
 	}
+}
+
+func examineProfile(args []string) {
+	return
 }
 
 func createProfile(args []string) {
