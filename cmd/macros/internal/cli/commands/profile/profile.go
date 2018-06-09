@@ -105,14 +105,16 @@ func selectProfile(args []string) {
 		return
 	}
 
-	if isProfile(args[0]) == false {
-		fmt.Printf("A profile with the name '%v' does not exist\n", args[0])
+	if base.Settings.MainProfile == args[0] {
+		fmt.Printf("The profile '%v' is already selected.\n", args[0])
+	} else if isProfile(args[0]) == false {
+		fmt.Printf("A profile with the name '%v' does not exist.\n", args[0])
 		fmt.Println("To see a list of profile, use:")
 		fmt.Println("  macros profile list")
 	} else {
 		base.Settings.MainProfile = args[0]
 		base.Settings.Save("config/settings.json")
-		fmt.Printf("Selecting profile '%v'\n", args[0])
+		fmt.Printf("Selecting profile '%v'.\n", args[0])
 	}
 }
 
