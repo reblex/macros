@@ -59,6 +59,36 @@ func (p *Profile) Load(path string) error {
 	return nil
 }
 
+func (p *Profile) GetSlot(path string) (int, error) {
+	profiles := p.GetProfiles(path)
+	var slot int
+
+	for i := range profiles {
+		if profiles[i].Name == p.Name {
+			slot = i
+			break
+		}
+	}
+
+	return slot, nil
+}
+
+func (p *Profile) SaveToSlot(path string, slot int) error {
+	profiles := p.GetProfiles(path)
+
+	if slot < 0 || slot > (len(profiles)-1) {
+		return errors.New("Save slot out of bounds")
+	}
+
+	profiles[slot] = p.Data
+
+	data, _ := json.MarshalIndent(profiles, "", "    ")
+
+	ioutil.WriteFile(path, data, 0644)
+
+	return nil
+}
+
 func (p *Profile) Save(path string) error {
 	profiles := p.GetProfiles(path)
 
