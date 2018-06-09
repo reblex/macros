@@ -27,9 +27,10 @@ Flags:
 
 Commands:
 	list                List all profiles
-	select              Select a profile to use
+	select <profile>    Select a profile to use
     create            	Create a new profile
-    edit                Edit a current profile settings
+	examine <profile>   Examine saved values for selected profile
+    edit <profile>      Edit a current profile settings
     help                Print this help message
     `,
 	CustomFlags: true,
