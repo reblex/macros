@@ -197,5 +197,67 @@ func createProfile(args []string) {
 }
 
 func editProfile(args []string) {
-	return
+	if len(args) < 1 {
+		fmt.Println("edit requires profile argument.")
+		fmt.Println(" macros profile edit <profile>")
+		return
+	}
+
+	if isProfile(args[0]) == false {
+		fmt.Printf("A profile with the name '%v' does not exist.\n", args[0])
+		fmt.Println("To see a list of profile, use:")
+		fmt.Println("  macros profile list")
+		return
+	}
+
+	p := profile.Profile{}
+	p.Name = args[0]
+	p.Load("config/profiles.json")
+
+	pdNewData := p.Data
+	pdNew := &pdNewData
+	reader := bufio.NewReader(os.Stdin)
+
+	//https://play.golang.org/p/0Uqf8Qi0lC
+	ptr := reflect.ValueOf(pdNew)
+	value := ptr.Elem()
+
+	fmt.Println("Enter a new value and press enter to accept.")
+	fmt.Println("Keep blank and press enter to keep current value.")
+
+	// Loop profiledata struct and set values for all fields
+	for i := 0; i < value.NumField(); i++ {
+		key := value.Type().Field(i).Name
+		val := value.Field(i)
+		// fmt.Printf("%v: %v\n", key, val)
+
+		fmt.Printf("%v: %v -> ", key, val)
+		newVal, _ := reader.ReadString('\n')
+		newVal = strings.TrimSuffix(newVal, "\n")
+
+		if newVal != "" {
+			// Set struct field values based on type
+			switch val.Type().Name() {
+			case "string":
+				val.SetString(newVal)
+			case "float64":
+				newVal, _ := strconv.ParseFloat(newVal, 64)
+				val.SetFloat(newVal)
+			case "int":
+				newVal, _ := strconv.ParseInt(newVal, 10, 64)
+				val.SetInt(newVal)
+			case "bool":
+				newVal, _ := strconv.ParseBool(newVal)
+				val.SetBool(newVal)
+			}
+
+			if key == "Name" {
+				p.Name = val.String()
+			}
+		}
+	}
+
+	p.Data = *pdNew
+	slot, _ := p.GetSlot("config/profiles.json")
+	p.SaveToSlot("config/profiles.json", slot)
 }
