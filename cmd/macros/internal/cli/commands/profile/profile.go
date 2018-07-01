@@ -17,7 +17,7 @@ var CmdProfile = &base.Command{
 	Usage:       "macros profile [flag]... <command> [arg]",
 	Description: "Handle profile settings.",
 	Help: `Overview:
-    Handles profiles and profile settings.
+Handles profiles and profile settings.
 
 Usage:
     macros profile [flag]... <command> [arg]
@@ -26,10 +26,10 @@ Flags:
     -h, -help           Print this help message
 
 Commands:
-	list                List all profiles
-	select <profile>    Select a profile to use
-    create            	Create a new profile
-	examine <profile>   Examine saved values for selected profile
+    list                List all profiles
+    select <profile>    Select a profile to use
+    create              Create a new profile
+    examine <profile>   Examine saved values for selected profile
     edit <profile>      Edit a current profile settings
     help                Print this help message
     `,
