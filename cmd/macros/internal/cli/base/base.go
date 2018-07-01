@@ -56,6 +56,10 @@ func init() {
 	Flags.BoolVar(&FlagH, "help", false, "")
 }
 
+func getProjectPath() string {
+	return os.Getenv("GOPATH") + "/src/github.com/reblex/macros/"
+}
+
 // Print command usage
 func (c *Command) PrintUsage() {
 	fmt.Fprintf(os.Stderr, "usage: %s\n", c.Usage)
@@ -63,7 +67,7 @@ func (c *Command) PrintUsage() {
 }
 
 func (s *applicationSettings) Load(path string) error {
-	raw, err := ioutil.ReadFile(path)
+	raw, err := ioutil.ReadFile(getProjectPath() + path)
 
 	if err != nil {
 		return err
@@ -77,7 +81,7 @@ func (s *applicationSettings) Load(path string) error {
 func (s *applicationSettings) Save(path string) error {
 	data, _ := json.MarshalIndent(Settings, "", "    ")
 
-	ioutil.WriteFile(path, data, 0644)
+	ioutil.WriteFile(getProjectPath()+path, data, 0644)
 
 	return nil
 }

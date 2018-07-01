@@ -26,7 +26,13 @@ type Profile struct {
 	Data ProfileData
 }
 
+func getProjectPath() string {
+	return os.Getenv("GOPATH") + "/src/github.com/reblex/macros/"
+}
+
 func (p *Profile) GetProfiles(path string) []ProfileData {
+	path = getProjectPath() + path
+
 	raw, err := ioutil.ReadFile(path)
 
 	if err != nil {
@@ -84,7 +90,7 @@ func (p *Profile) SaveToSlot(path string, slot int) error {
 
 	data, _ := json.MarshalIndent(profiles, "", "    ")
 
-	ioutil.WriteFile(path, data, 0644)
+	ioutil.WriteFile(getProjectPath()+path, data, 0644)
 
 	return nil
 }
@@ -106,7 +112,7 @@ func (p *Profile) Save(path string) error {
 
 	data, _ := json.MarshalIndent(profiles, "", "    ")
 
-	ioutil.WriteFile(path, data, 0644)
+	ioutil.WriteFile(getProjectPath()+path, data, 0644)
 
 	return nil
 }
