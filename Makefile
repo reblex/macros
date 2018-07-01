@@ -26,8 +26,14 @@ help:
 	@egrep "^# target:" $(THIS_MAKEFILE) | sed 's/# target: / /g'
 
 
-# target: build               - Build main file.
+# target: build               - Build main executable.
 .PHONY: build
 build:
 	@$(call HELPTEXT,$@)
 	@go build github.com/reblex/macros/cmd/macros
+
+# target: test                - Run tests for all packages.
+.PHONY: test
+test:
+	@$(call HELPTEXT,$@)
+	@go test ./...
